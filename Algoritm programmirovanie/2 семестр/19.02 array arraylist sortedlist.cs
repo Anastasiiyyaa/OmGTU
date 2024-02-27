@@ -50,14 +50,13 @@ namespace DataStructuresApp
             while(kolvo <= 0)
             {Console.WriteLine("Введите число > 0, пожалуйста:");
             kolvo = ogranichenie();}
-            
-            
-            int[] array = new int[kolvo];
+            Array array = Array.CreateInstance(typeof(int), kolvo);
 
-            for (int i = 0; i < kolvo; i++)
+            for (int i = array.GetLowerBound(0); i <= array.GetUpperBound(0); i++) 
             {
                 Console.WriteLine($"Введите элемент массива под индексом {i}:");
-                array[i] = ogranichenie();
+                int chislo = ogranichenie();
+                array.SetValue(chislo, i);
             }
 
             Console.WriteLine("Метод Sort:");
@@ -79,10 +78,11 @@ namespace DataStructuresApp
             int a = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Введите конец диапазонa:");
             int b = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine(Array.Find<int>(array,element => (element < b) & (element > a)));
+            int[] typedarray = (int[])array;
+            Console.WriteLine(Array.Find<int>(typedarray,element => (element < b) & (element > a)));
             
             Console.WriteLine("Метод FindLast");
-            Console.WriteLine(Array.FindLast<int>(array,element => (element < b) & (element > a)));
+            Console.WriteLine(Array.FindLast<int>(typedarray,element => (element < b) & (element > a)));
             
             Console.WriteLine("Метод IndexOf");
             Console.WriteLine("Введите элемент для поиска");
@@ -102,20 +102,28 @@ namespace DataStructuresApp
             Console.WriteLine("Введите размер массива больше исходного");
             ufff = ogranichenie();}
                
-            Array.Resize<int>(ref array, ufff);
+            Array.Resize<int>(ref typedarray, ufff);
             for (int i = kolvo; i < ufff; i++)
             {
                 Console.WriteLine($"Введите элемент массива под индексом {i}:");
-                array[i] = ogranichenie();
+                typedarray[i] = ogranichenie();
             }
-            Display(array);
+            Display(typedarray);
         }
-        static void Display(int[] array)
+        static void Display(Array array)
         {
-            foreach (int item in array)
-            {
-                Console.Write(item + " ");
+            System.Collections.IEnumerator myEnumerator = array.GetEnumerator();
+            int i = 0;
+            int cols = array.GetLength(0);
+            while (myEnumerator.MoveNext())
+            { if (i < cols)
+            { i++; }
+            else
+            { Console.WriteLine();
+            i = 1; 
             }
+            Console.Write("\t{0}", myEnumerator.Current);
+            } 
             Console.WriteLine();
         }
            

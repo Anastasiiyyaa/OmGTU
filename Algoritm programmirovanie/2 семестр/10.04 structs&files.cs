@@ -17,7 +17,7 @@ struct Person {
 
 class StructDemo {
     static void Main() {
-        var path = @"T.txt";  
+        var path = @"10 04 People.txt";  
         var lines = File.ReadAllLines(path);
         if (lines.Length == 0) {
             Console.WriteLine("Файл пуст.");
